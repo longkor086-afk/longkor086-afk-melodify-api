@@ -1,21 +1,29 @@
-# Worker Management Web App — V1
+# Worker Management V2
 
-## អ្វីដែលមានក្នុង V1
-- Dashboard
-- បន្ថែម/កែព័ត៌មានកម្មករ
-- តម្លៃឈ្នួលពេញថ្ងៃ
-- Worker ID សម្រាប់ QR
-- Attendance ព្រឹក/រសៀល
-- គណនា 0.5 ថ្ងៃ / 1 ថ្ងៃ
-- កែ Attendance ដោយ Admin
-- Payroll តាម 1–15 និង 16–ចុងខែ
-- រក្សាទិន្នន័យក្នុង LocalStorage
+V2 adds:
+- Firebase Authentication (Email/Password)
+- Firebase Realtime Database
+- Cloud worker data
+- Cloud attendance data
+- Real camera QR scanning
+- Morning / afternoon attendance
+- Payroll 1–15 and 16–end of month
 
-## របៀបបើក
-បើក `index.html` ក្នុង browser។
+## Setup
+1. Create a Firebase project.
+2. Enable Authentication > Sign-in method > Email/Password.
+3. Create Realtime Database.
+4. Add a Web App under Project Settings > Your apps.
+5. Copy the Web App config into `firebase-config.js`.
+6. Upload all files to GitHub Pages.
+7. Open the HTTPS GitHub Pages URL.
+8. Create the first Admin account.
 
-## GitHub Pages
-Upload ឯកសារទាំងអស់ទៅ repository មួយ ហើយបើក GitHub Pages ពី branch `main` / folder `/root`។
+## Database structure
+workers/{workerId}
+attendance/{YYYY-MM-DD}/{workerId}
 
-## ចំណាំ
-V1 នេះមិនទាន់ភ្ជាប់ Firebase ទេ។ ទិន្នន័យស្ថិតនៅក្នុង browser របស់ឧបករណ៍នោះ។ ជំហានបន្ទាប់អាចភ្ជាប់ Firebase Realtime Database + Login + Camera QR Scanner ដើម្បីឱ្យ Admin និង Worker ប្រើទិន្នន័យដូចគ្នា។
+## Important
+The QR value must be the worker ID, e.g. WABC123.
+Camera scanning requires HTTPS and browser camera permission.
+For production, Firebase Realtime Database Security Rules should be configured before real worker data is used.
