@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2563eb">
+  <title>គ្រប់គ្រងកម្មករ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>👷 គ្រប់គ្រងកម្មករ</h1>
+      <p>Worker & Work Management</p>
+    </div>
+    <button id="scanBtn" class="primary">📷 ស្កេន QR</button>
+  </header>
+
+  <main class="container">
+    <section class="cards">
+      <div class="stat"><span>👷</span><b id="totalWorkers">0</b><small>កម្មករសរុប</small></div>
+      <div class="stat"><span>✅</span><b id="presentToday">0</b><small>មកថ្ងៃនេះ</small></div>
+      <div class="stat"><span>❌</span><b id="absentToday">0</b><small>អវត្តមាន</small></div>
+      <div class="stat"><span>💰</span><b id="todayPay">0៛</b><small>ប្រាក់ថ្ងៃនេះ</small></div>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="dashboard">🏠 ទំព័រដើម</button>
+      <button class="tab" data-tab="workers">👷 កម្មករ</button>
+      <button class="tab" data-tab="attendance">📅 វត្តមាន</button>
+      <button class="tab" data-tab="payroll">💰 ប្រាក់ឈ្នួល</button>
+    </nav>
+
+    <section id="dashboard" class="page active">
+      <div class="section-head"><h2>វត្តមានថ្ងៃនេះ</h2><button id="addWorkerBtn" class="primary">＋ បន្ថែមកម្មករ</button></div>
+      <div id="todayList" class="list"></div>
+    </section>
+
+    <section id="workers" class="page">
+      <div class="section-head"><h2>បញ្ជីកម្មករ</h2><button id="addWorkerBtn2" class="primary">＋ បន្ថែមកម្មករ</button></div>
+      <input id="workerSearch" class="search" placeholder="🔎 ស្វែងរកឈ្មោះ ឬលេខទូរស័ព្ទ">
+      <div id="workerList" class="grid"></div>
+    </section>
+
+    <section id="attendance" class="page">
+      <div class="section-head"><h2>តារាងវត្តមាន</h2><input id="attendanceDate" type="date"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>កម្មករ</th><th>ព្រឹក</th><th>រសៀល</th><th>ស្ថានភាព</th><th>ប្រាក់</th><th>កែ</th></tr></thead>
+          <tbody id="attendanceTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="payroll" class="page">
+      <div class="section-head"><h2>ប្រាក់ឈ្នួល</h2><select id="payPeriod"><option value="1">ថ្ងៃទី 1–15</option><option value="2">ថ្ងៃទី 16–ចុងខែ</option></select></div>
+      <div id="payrollList" class="list"></div>
+    </section>
+  </main>
+
+  <dialog id="workerDialog">
+    <form method="dialog" id="workerForm" class="modal">
+      <h2>➕ បន្ថែមកម្មករ</h2>
+      <input type="hidden" id="workerId">
+      <label>ឈ្មោះ<input id="workerName" required></label>
+      <label>លេខទូរស័ព្ទ<input id="workerPhone" inputmode="tel"></label>
+      <label>មុខងារ/ជំនាញ<input id="workerJob" placeholder="ឧ. ជាងដែក"></label>
+      <label>តម្លៃពេញថ្ងៃ (៛)<input id="workerRate" type="number" min="0" value="60000" required></label>
+      <label>ការដ្ឋាន<input id="workerSite" placeholder="ឧ. Site A"></label>
+      <div class="modal-actions"><button type="button" id="cancelWorker">បោះបង់</button><button class="primary" type="submit">រក្សាទុក</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="qrDialog">
+    <div class="modal">
+      <h2>📷 QR Attendance</h2>
+      <p id="qrStatus">បញ្ចូលលេខកូដកម្មករ ឬជ្រើសកម្មករ ដើម្បីកត់វត្តមាន។</p>
+      <input id="qrInput" placeholder="Worker ID / QR code">
+      <select id="qrWorkerSelect"></select>
+      <select id="qrShift"><option value="morning">🌅 ព្រឹក</option><option value="afternoon">🌇 រសៀល</option></select>
+      <div class="modal-actions"><button id="closeQr">បិទ</button><button id="recordQr" class="primary">កត់វត្តមាន</button></div>
+      <small>Version 1 ប្រើ Worker ID ជា QR data។ អាចបន្ថែម Camera QR Scanner ក្នុងជំហានបន្ទាប់។</small>
+    </div>
+  </dialog>
+
+  <dialog id="editAttendanceDialog">
+    <form method="dialog" id="attendanceForm" class="modal">
+      <h2>✏️ កែវត្តមាន</h2>
+      <input type="hidden" id="editAttendanceWorker">
+      <input type="hidden" id="editAttendanceDate">
+      <label><input type="checkbox" id="editMorning"> មកព្រឹក</label>
+      <label><input type="checkbox" id="editAfternoon"> មករសៀល</label>
+      <div class="modal-actions"><button type="button" id="cancelAttendance">បោះបង់</button><button class="primary" type="submit">រក្សាទុក</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
